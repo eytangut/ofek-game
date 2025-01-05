@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Canvas with Timer</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        canvas {
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: crosshair;
+            transition: box-shadow 0.3s ease;
+        }
+
+        canvas:active {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        button {
+            margin: 10px 5px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #4caf50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:disabled {
+            background-color: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        #countdown {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Drawing Canvas</h1>
+    <canvas id="drawingCanvas" width="500" height="400"></canvas>
+    <div>
+        <button id="startButton">Start Drawing (45s)</button>
+        <button id="resetButton" disabled>Reset</button>
+    </div>
+    <p id="countdown"></p>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const startButton = document.getElementById('startButton');
+        const resetButton = document.getElementById('resetButton');
+        const countdownDisplay = document.getElementById('countdown');
+
+        let drawingActive = false;
+        let timer;
+        let timeRemaining = 0;
+
+        // Disable drawing by default
+        function disableDrawing() {
+            canvas.onmousedown = null;
+            canvas.onmousemove = null;
+        }
+
+        // Enable drawing
+        function enableDrawing() {
+            let isDrawing = false;
+
+            canvas.onmousedown = (e) => {
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+            };
+
+            canvas.onmousemove = (e) => {
+                if (isDrawing) {
+                    ctx.lineTo(e.offsetX, e.offsetY);
+                    ctx.stroke();
+                }
+            };
+
+            canvas.onmouseup = () => {
+                isDrawing = false;
+            };
+
+            canvas.onmouseleave = () => {
+                isDrawing = false;
+            };
+        }
+
+        // Start the countdown
+        function startCountdown() {
+            timeRemaining = 45;
+            countdownDisplay.textContent = `Time remaining: ${timeRemaining}s`;
+
+            timer = setInterval(() => {
+                timeRemaining -= 1;
+                countdownDisplay.textContent = `Time remaining: ${timeRemaining}s`;
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timer);
+                    countdownDisplay.textContent = "Time is up! You can no longer draw.";
+                    disableDrawing();
+                    resetButton.disabled = false;
+                }
+            }, 1000);
+        }
+
+        // Reset the canvas
+        function resetCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Start button event listener
+        startButton.addEventListener('click', () => {
+            resetCanvas();
+            enableDrawing();
+            resetButton.disabled = true;
+            startCountdown();
+        });
+
+        // Reset button event listener
+        resetButton.addEventListener('click', () => {
+            resetCanvas();
+            countdownDisplay.textContent = "";
+            resetButton.disabled = true;
+        });
+
+        // Initialize
+        disableDrawing();
+    </script>
+</body>
+</html>
