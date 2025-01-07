@@ -1,0 +1,161 @@
+
+השיחה נפתחה. הודעה אחת נקראה.
+
+דילוג לתוכן
+שימוש ב-Gmail עם קוראי מסך
+
+1 מתוך 1,229
+"my" code is unreadable‏
+דואר נכנס
+
+ירין נחמיה <yarin00310@gmail.com‏>
+קבצים מצורפים
+יום ב׳, 6 בינו׳, 22:45 ‎(לפני 7 שעות)‎
+אני
+
+
+ קובץ מצורף אחד
+  •  נסרקו על ידי Gmail
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Question Scrambler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: white;
+            text-align: center;
+        }
+
+        #question {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 50px;
+        }
+
+        .timeout-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 72px;
+            color: red;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 50px;
+            font-size: 24px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="question">Press the button to see a question!</div>
+    <button onclick="startQuestionCycle()">Start</button>
+
+    <script>
+        // Initial question list
+        let questions = words = [
+  "שמים",
+  "עצים",
+  "מחשב",
+  "חלון",
+  "גיטרה",
+  "טיול",
+  "אריה",
+  "קסם",
+  "פרח",
+  "ספר",
+  "דגל",
+  "ים",
+  "מטוס",
+  "שמש",
+  "עיר",
+  "דג",
+  "מפתח",
+  "שולחן",
+  "פנס",
+  "בננה",
+  "גשם",
+  "כביש",
+  "חתול",
+  "כוכב",
+  "מטבע",
+  "דלת",
+  "כלב",
+  "זמן",
+  "עץ",
+  "תחנה",
+  "גבינה",
+  "צבע",
+  "חלום",
+  "גג",
+  "עט",
+  "ציפור",
+  "גדר",
+  "שמשיה",
+  "נהר",
+  "כובע",
+  "צליל",
+  "דשא"
+];
+
+        let timer;
+
+        // Function to shuffle the questions array
+        function shuffleQuestions() {
+            questions.sort(() => Math.random() - 0.5);
+        }
+
+        // Function to start showing a question
+        function startQuestionCycle() {
+            if (questions.length === 0) {
+                alert("No questions left! Add more questions in the code.");
+                return;
+            }
+
+            shuffleQuestions();
+            const currentQuestion = questions.pop();
+            document.getElementById("question").textContent = currentQuestion;
+
+            // Wait 5 seconds before showing 'Time's up!' message
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                document.body.innerHTML = `<div class='timeout-page'>
+                    הזמן נגמר
+                    <button onclick="continueToNextQuestion()">המשך לשאלה הבאה</button>
+                </div>`;
+            }, 5000);
+        }
+
+        // Function to continue to the next question
+        function continueToNextQuestion() {
+            document.body.innerHTML = '<div id="question">Loading next question...</div>';
+            setTimeout(() => {
+                startQuestionCycle();
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+work.html
+מציג את work.html.
