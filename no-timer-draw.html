@@ -54,6 +54,8 @@
     <div id="question">Press the button to see a question!</div>
     <button onclick="startQuestionCycle()">Start</button>
 
+    <button onclick="continueToNextQuestion()">המשך לשאלה הבאה</button>
+
     <script>
         // Initial question list
         let questions = [
@@ -87,13 +89,6 @@
             const currentQuestion = questions.pop();
             document.getElementById("question").textContent = currentQuestion;
 
-            // Wait 5 seconds before showing 'Time's up!' message
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-                document.body.innerHTML = `<div class='timeout-page'>
-                    <button onclick="continueToNextQuestion()">המשך לשאלה הבאה</button>
-                </div>`;
-            }, 1000);
         }
 
         // Function to continue to the next question
